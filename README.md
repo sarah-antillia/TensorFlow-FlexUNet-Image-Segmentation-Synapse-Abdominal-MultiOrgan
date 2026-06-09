@@ -1,8 +1,11 @@
-<h2>TensorFlow-FlexUNet-Image-Segmentation-Synapse-Abdominal-MultiOrgan (2026/04/17)</h2>
+<h2>TensorFlow-FlexUNet-Image-Segmentation-Synapse-Abdominal-MultiOrgan (Updated: 2026/06/09)</h2>
 
 Sarah T. Arai<br>
 Software Laboratory antillia.com<br>
-<br>
+<ul>
+<li>2026/06/9: Updated <a href="./src/TensorFlowFlexModel.py">TensorFlowFlexModel.py</a></li>
+<li>2026/06/9: Added 3D Volume Segmentation</li>
+</ul>
 This is the first experiment of Image Segmentation for <b>Synapse-Abdominal-MultiOrgan</b>,
  based on our 
 TensorFlowFlexUNet (TensorFlow Flexible UNet Image Segmentation Model for Multiclass) 
@@ -382,9 +385,9 @@ PNG dataset appear similar to the ground truth masks.<br><br>
 </table>
 <hr>
 <br>
-<!--
+
 <h3>
-6 3D Volume Inference
+6 3D Volume Segmentation
 </h3>
 Please move to <b>./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan</b> folder<br>
 ,and run the following bat file to infer images segmentation for 2D slices of 3D volume NIfTI files
@@ -404,15 +407,15 @@ train_eval_infer.config
 ;Specify an images_dir which contains NIfTI files
 images_dir    = "./mini_test_3d/images/"
 output_dir    = "./mini_test_3d_output/"
-slice_shape_order = "dhw"
+slice_shape_order = "hwd"
 slice_normalize = True
 slice_resize   = (512,512)
-slice_rotation = None
+slice_rotation = "cv2.ROTATE_90_CLOCKWISE"
 mask_overlay  = True
 </pre>
 <hr>
 <b>Acutual Image Segmentation for 2D Slices of a Synapse-Abdominal-MultiOrgan NIfTI</b><br>
-Some Slices, Inferred Masks and Mask overlays for a 3D volume <b>img0023.nii</b> file in <b>archive/img</b> folder.
+Some Slices, Inferred Masks and Mask overlays for a 3D volume <b>img0008.nii</b> file in <b>archive/img</b> folder.
  folder.<br>
 <br>
 <a href="#color-class-mapping-table">Color class mapping table</a>
@@ -425,35 +428,35 @@ Some Slices, Inferred Masks and Mask overlays for a 3D volume <b>img0023.nii</b>
 </tr>
 
 <tr>
-<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0023.nii/images/10.png" width="320" height="auto"></td>
-<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0023.nii/masks/10.png" width="320" height="auto"></td>
-<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0023.nii/mask_overlays/10.png" width="320" height="auto"></td>
+<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0008.nii/slices/10085.png" width="320" height="auto"></td>
+<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0008.nii/masks/10085.png" width="320" height="auto"></td>
+<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0008.nii/overlays/10085.png" width="320" height="auto"></td>
 </tr>
 
 <tr>
-<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0023.nii/images/10.png" width="320" height="auto"></td>
-<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0023.nii/masks/10.png" width="320" height="auto"></td>
-<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0023.nii/mask_overlays/10.png" width="320" height="auto"></td>
+<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0008.nii/slices/10097.png" width="320" height="auto"></td>
+<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0008.nii/masks/10097.png" width="320" height="auto"></td>
+<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0008.nii/overlays/10097.png" width="320" height="auto"></td>
 </tr>
 <tr>
-<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0023.nii/images/10.png" width="320" height="auto"></td>
-<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0023.nii/masks/10.png" width="320" height="auto"></td>
-<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0023.nii/mask_overlays/10.png" width="320" height="auto"></td>
+<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0008.nii/slices/10109.png" width="320" height="auto"></td>
+<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0008.nii/masks/10109.png" width="320" height="auto"></td>
+<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0008.nii/overlays/10109.png" width="320" height="auto"></td>
 </tr>
 <tr>
-<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0023.nii/images/10.png" width="320" height="auto"></td>
-<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0023.nii/masks/10.png" width="320" height="auto"></td>
-<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0023.nii/mask_overlays/10.png" width="320" height="auto"></td>
+<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0008.nii/slices/10121.png" width="320" height="auto"></td>
+<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0008.nii/masks/10121.png" width="320" height="auto"></td>
+<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0008.nii/overlays/10121.png" width="320" height="auto"></td>
 </tr>
 <tr>
-<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0023.nii/images/10.png" width="320" height="auto"></td>
-<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0023.nii/masks/10.png" width="320" height="auto"></td>
-<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0023.nii/mask_overlays/10.png" width="320" height="auto"></td>
+<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0008.nii/slices/10133.png" width="320" height="auto"></td>
+<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0008.nii/masks/10133.png" width="320" height="auto"></td>
+<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0008.nii/overlays/10133.png" width="320" height="auto"></td>
 </tr>
 <tr>
-<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0023.nii/images/10.png" width="320" height="auto"></td>
-<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0023.nii/masks/10.png" width="320" height="auto"></td>
-<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0023.nii/mask_overlays/10.png" width="320" height="auto"></td>
+<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0008.nii/slices/10145.png" width="320" height="auto"></td>
+<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0008.nii/masks/10145.png" width="320" height="auto"></td>
+<td><img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/mini_test_3d_output/img0008.nii/overlays/10145.png" width="320" height="auto"></td>
 </tr>
 
 </table>
@@ -486,7 +489,7 @@ video_fileformat  = ".gif"
 <b>overlays.gif</b><br>
 <img src="./projects/TensorFlowFlexUNet/Synapse-Abdominal-MultiOrgan/video_3d/overlays.gif">
 <br>
--->
+
 <br>
 <h3>
 References

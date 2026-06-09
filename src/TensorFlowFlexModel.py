@@ -25,6 +25,14 @@
 # 2026/05/14 Updated the infer3d method TensorFlowFlexModel class to support an MHA volume file.
 # 2026/05/14 Added generate_maskoverkay method to TensorFlowFlexModel class.
 
+# 2026/06/03 Updated infer3d method to support NPY 3d volume inference.
+
+# 2026/06/05 Updated normalized method.
+
+# 2026/06/05 Updated infer3d method to eval slice_rotation.
+#   You may specify a string like "cv2.RORATE_90CLOCKWISE" in slice_rotation in [infer3d] section
+
+
 import os
 os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "true"
 os.environ["TF_ENABLE_GPU_GARBAGE_COLLECTION"]="true"
@@ -378,17 +386,17 @@ class TensorFlowFlexModel:
       predicted_rgb_mask.save(output_filepath)
       print("=== Saved prediction {}".format(output_filepath))
 
-  # 2026/04/16
+ 
+  # 2026/06.05 Updated
   def normalize(self, image):
-    min = np.min(image)/255.0
-    max = np.max(image)/255.0
-    scale = (max - min)
-    if scale == 0:
-      scale +=  1
-    image = (image -min) / scale
-    image = image.astype('uint8') 
+    min, max = image.min(), image.max()
+    if max > min:
+        image = (image - min) / (max - min) * 255.0
+    else:
+        image = image * 0
+
+    image = image.astype("uint8")
     return image
-  
 
   def get_volume(self, volume_file):
     volume   = None
@@ -399,6 +407,9 @@ class TensorFlowFlexModel:
     elif basename.endswith(".mha"):
       data   = sitk.ReadImage(volume_file)
       volume = sitk.GetArrayFromImage(data)
+    # 2026/06/03 
+    elif basename.endswith(".npy"):
+      volume   = np.load(volume_file)
     else:
       print("Unsupported volume file")
     return volume
@@ -451,7 +462,10 @@ class TensorFlowFlexModel:
     self.slice_normalize = self.config.get(ConfigParser.INFER3D, "slice_normalize", dvalue=True)
 
     self.slice_resize    = self.config.get(ConfigParser.INFER3D, "slice_resize", dvalue=(512,512)) 
-    self.slice_rotation  = self.config.get(ConfigParser.INFER3D, "slice_rotation", dvalue=cv2.ROTATE_90_CLOCKWISE) 
+
+    self.slice_rotation  = self.config.get(ConfigParser.INFER3D, "slice_rotation", dvalue="cv2.ROTATE_90_CLOCKWISE")
+    if self.slice_rotation !=None:
+       self.slice_rotation = eval(self.slice_rotation )
     self.slice_shape_order = self.config.get(ConfigParser.INFER3D, "slice_shape_order", dvalue="hwd")
     
     self.mask_overly   = self.config.get(ConfigParser.INFER3D, "mask_overlay", dvalue=True)
@@ -465,6 +479,8 @@ class TensorFlowFlexModel:
     volume_files    = glob.glob(self.mini_test_3d_dir + "/*.nii")
     volume_files  +=  glob.glob(self.mini_test_3d_dir + "/*.nii.gz")
     volume_files  +=  glob.glob(self.mini_test_3d_dir + "/*.mha")
+    # 2026/06/03 Added to support NPY files.
+    volume_files  +=  glob.glob(self.mini_test_3d_dir + "/*.npy")
 
     for volume_file in volume_files:
       volume = self.get_volume(volume_file)
@@ -513,7 +529,7 @@ class TensorFlowFlexModel:
           cv2.imwrite(slice_filepath, slice)
           print("Saved slice {}".format(slice_filepath))
           slice = cv2.imread(slice_filepath)
-
+          #slice = cv2.cvtColor(slice, cv2.COLOR_GRAY2RGB)
           mask_filepath = os.path.join(output_masks_dir, slice_filename)
           predicted_rgb_mask =self.predict(slice)
           
